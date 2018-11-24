@@ -14,8 +14,8 @@ def get_formatting_elements_with_headlines(element):
       .format(namespace, headline_font_size)
   return element.findall(formatting_element_path)
 
-def contains_headline(page_element):
-  formatting_elements = get_formatting_elements_with_headlines(page_element)
+def contains_headline(element):
+  formatting_elements = get_formatting_elements_with_headlines(element)
   return len(formatting_elements) > 0
 
 def remove_non_headline_elements(text_element):
@@ -30,7 +30,7 @@ def remove_non_headline_elements(text_element):
       if fontSize != headline_font_size + ".":
         line_element.remove(element)
 
-def get_letters_of_headline(text_element):
+def get_headline_letters(text_element):
   isRelevantLetter = lambda text: new_line_char not in text
   filteredTextIter = filter(isRelevantLetter, text_element.itertext())
   return list(filteredTextIter)
@@ -56,7 +56,7 @@ for page_element in all_page_elements:
 
     for element in filtered_text_elements:
       remove_non_headline_elements(element)
-      headline_letters = get_letters_of_headline(element)
+      headline_letters = get_headline_letters(element)
       headline_info = {
         "headline": "".join(headline_letters),
         "page": page_counter
